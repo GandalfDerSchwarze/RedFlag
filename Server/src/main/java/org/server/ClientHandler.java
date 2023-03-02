@@ -20,10 +20,14 @@ public class ClientHandler implements Runnable{
             write = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
 
             String reading = read.readLine();
-            System.out.println("Reading: " + reading);
+            String writing = "Testing...";
 
-            write.println("Testing...");
+            System.out.println("[SERVER]:Reading from Client: " + reading);
+
+            write.println(writing);
             write.flush();
+
+            System.out.println("[SERVER]:Writing to Client: " + writing);
 
             read.close();
             write.close();

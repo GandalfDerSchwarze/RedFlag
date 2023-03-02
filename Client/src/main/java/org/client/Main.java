@@ -12,16 +12,25 @@ public class Main {
         PrintWriter write = null;
         BufferedReader read = null;
 
+        String writing = null;
+        String reading = null;
+
         try{
             socket = new Socket(ip, port);
 
             read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             write = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-            write.println("Hello from Client");
+            System.out.println("Input Message: ");
+            writing = Input.readString();
+
+            write.println(writing);
             write.flush();
 
-            System.out.println("Reading: " + read.readLine());
+            reading = read.readLine();
+
+            System.out.println("Writing to Server: " + writing);
+            System.out.println("Reading from Server: " + reading);
 
             read.close();
             write.close();
