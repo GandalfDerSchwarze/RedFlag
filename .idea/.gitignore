@@ -14,4 +14,8 @@
 
 ../Client/.gradle/
 ../Client/build/
-../Client/gradle
+../Client/gradle/
+
+*.lock
+*.bin
+*.probe
