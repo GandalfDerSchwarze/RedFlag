@@ -14,8 +14,6 @@ public class Main {
         ServerSocket serverSocket = null;
         Socket accepted = null;
 
-
-
         try{
             serverSocket = new ServerSocket(port);
         }catch (IOException e){
