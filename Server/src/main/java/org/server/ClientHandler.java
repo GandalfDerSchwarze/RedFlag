@@ -1,39 +1,62 @@
 package org.server;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable{
-    private Socket client;
+public class ClientHandler extends Thread{
+    private int port;
 
-    BufferedReader read;
-    PrintWriter write;
+    private Socket server;
+    private ServerSocket serverSocket;
 
-    public ClientHandler(Socket client){
-        this.client = client;
+    private BufferedReader read;
+    private PrintWriter write;
+
+    public ClientHandler(){
+        try {
+            this.serverSocket = new ServerSocket(0);
+        } catch (IOException e) {
+            System.err.println("GRRRRRRRRR cant create new ServerSocket");
+            e.printStackTrace();
+        }
+
+        this.port = this.serverSocket.getLocalPort();
+    }
+
+    public int getPort() {
+        return this.port;
     }
 
     @Override
     public void run() {
+        try {
+            this.server = this.serverSocket.accept();
+
+            this.read = new BufferedReader(new InputStreamReader(this.server.getInputStream()));
+            this.write = new PrintWriter(new OutputStreamWriter(this.server.getOutputStream()));
+        } catch (IOException e) {
+            System.err.println("AWWWW Man");
+            e.printStackTrace();
+        }
+
+        while(!server.isClosed()){//TODO idk if right server.isConnected glaub funktioniert ned
+            try{
+                write.println(read.readLine());
+                write.flush();
+            }catch (IOException e){
+                System.err.println("Client Server Error");
+                e.printStackTrace();
+                break;
+            }
+        }
+
         try{
-            read = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            write = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
-
-            String reading = read.readLine();
-            String writing = "Testing...";
-
-            System.out.println("[SERVER]:Reading from Client: " + reading);
-
-            write.println(writing);
-            write.flush();
-
-            System.out.println("[SERVER]:Writing to Client: " + writing);
-
+            server.close();
             read.close();
             write.close();
-            client.close();
         }catch (IOException e){
-            System.err.println("Whoopsie something went wrong :(");
+            System.err.println("Closing Error");
             e.printStackTrace();
         }
     }
