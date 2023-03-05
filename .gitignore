@@ -16,6 +16,9 @@
 ../Client/build/
 ../Client/gradle/
 
+#ignore .idea
+../.idea/
+
 *.lock
 *.bin
 *.probe
