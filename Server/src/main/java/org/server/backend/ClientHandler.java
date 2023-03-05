@@ -1,9 +1,12 @@
-package org.server;
+package org.server.backend;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+@Slf4j
 public class ClientHandler extends Thread{
     private int port;
 
@@ -17,8 +20,7 @@ public class ClientHandler extends Thread{
         try {
             this.serverSocket = new ServerSocket(0);
         } catch (IOException e) {
-            System.err.println("GRRRRRRRRR cant create new ServerSocket");
-            e.printStackTrace();
+            log.error("GRRRRRRRRR cant create new ServerSocket", e);
         }
 
         this.port = this.serverSocket.getLocalPort();
@@ -36,8 +38,7 @@ public class ClientHandler extends Thread{
             this.read = new BufferedReader(new InputStreamReader(this.server.getInputStream()));
             this.write = new PrintWriter(new OutputStreamWriter(this.server.getOutputStream()));
         } catch (IOException e) {
-            System.err.println("AWWWW Man");
-            e.printStackTrace();
+            log.error("AWWWW Man", e);
         }
 
         while(!server.isClosed()){//TODO idk if right server.isConnected glaub funktioniert ned
@@ -45,8 +46,7 @@ public class ClientHandler extends Thread{
                 write.println(read.readLine());
                 write.flush();
             }catch (IOException e){
-                System.err.println("Client Server Error");
-                e.printStackTrace();
+                log.error("Client Server Error", e);
                 break;
             }
         }
@@ -56,8 +56,7 @@ public class ClientHandler extends Thread{
             read.close();
             write.close();
         }catch (IOException e){
-            System.err.println("Closing Error");
-            e.printStackTrace();
+            log.error("Closing Error", e);
         }
     }
 }

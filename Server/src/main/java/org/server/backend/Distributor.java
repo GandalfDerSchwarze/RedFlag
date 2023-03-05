@@ -1,8 +1,11 @@
-package org.server;
+package org.server.backend;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.Socket;
 
+@Slf4j
 public class Distributor {
     ClientHandler[] clientHandlers;
 
@@ -21,8 +24,7 @@ public class Distributor {
             read = new BufferedReader(new InputStreamReader(accepted.getInputStream()));
             write = new PrintWriter(new OutputStreamWriter(accepted.getOutputStream()));
         }catch (IOException e){
-            System.err.println("Whoopsie something went wrong :(");
-            e.printStackTrace();
+            log.error("Whoopsie something went wrong :(", e);
         }
 
         port = -1;
@@ -31,8 +33,7 @@ public class Distributor {
             reading = read.readLine();
             port = Integer.parseInt(reading);
         }catch (IOException e){
-            System.out.println("Wrong Input");
-            e.printStackTrace();
+            log.error("Wrong Input",e);
         }
 
         boolean exists = false;
@@ -70,8 +71,7 @@ public class Distributor {
             read.close();
             write.close();
         }catch (IOException e){
-            System.out.println("Closing Error in Distributor");
-            e.printStackTrace();
+            log.error("Closing Error in Distributor", e);
         }
     }
 }

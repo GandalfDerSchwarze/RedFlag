@@ -9,9 +9,7 @@ public class Reader extends Thread{
     private Socket socket;
     private BufferedReader read;
     private String reading;
-
     private boolean closed;
-
     private String user;
 
     public Reader(Socket socket, String user){
