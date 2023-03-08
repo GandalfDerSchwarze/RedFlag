@@ -1,4 +1,4 @@
-package org.server.backend;
+package org.server;
 
 import lombok.extern.slf4j.Slf4j;
 

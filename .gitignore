@@ -8,13 +8,13 @@
 /dataSources.local.xml
 
 # Ignore Build & gradle dirs
-../Server/.gradle/
-../Server/build/
-../Server/gradle/
+../redflag-client/.gradle/
+../redflag-client/build/
+../redflag-client/gradle/
 
-../Client/.gradle/
-../Client/build/
-../Client/gradle/
+../redflag-server/.gradle/
+../redflag-server/build/
+../redflag-server/gradle/
 
 #ignore .idea
 ../.idea/
