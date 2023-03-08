@@ -5,24 +5,22 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 
 @Slf4j
-public class ClientHandler extends Thread{
+public class ClientHandler {
     private int port;
-
-    private Socket server;
     private ServerSocket serverSocket;
+    private List<PrintWriter> writer;
 
-    private BufferedReader read;
-    private PrintWriter write;
-
-    public ClientHandler(){
+    public ClientHandler() {
         try {
             this.serverSocket = new ServerSocket(0);
         } catch (IOException e) {
             log.error("GRRRRRRRRR cant create new ServerSocket", e);
         }
-
+        this.writer = new LinkedList<>();
         this.port = this.serverSocket.getLocalPort();
     }
 
@@ -30,33 +28,29 @@ public class ClientHandler extends Thread{
         return this.port;
     }
 
-    @Override
-    public void run() {
+    //TODO: not so good accept blocks, find solution JAn ;D Probably change to HTTP Requests should be not tooo hard i hope e
+    public void acceptNewSocket() {
         try {
-            this.server = this.serverSocket.accept();
-
-            this.read = new BufferedReader(new InputStreamReader(this.server.getInputStream()));
-            this.write = new PrintWriter(new OutputStreamWriter(this.server.getOutputStream()));
+            Socket client = this.serverSocket.accept();
+            this.writer.add(new PrintWriter(new OutputStreamWriter(client.getOutputStream())));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            new Thread(() -> {
+                while (!client.isClosed()) {
+                    try {
+                        String readLine = bufferedReader.readLine();
+                        this.writer.forEach(writer -> {
+                            writer.println(readLine);
+                            writer.flush();
+                        });
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }).start();
         } catch (IOException e) {
             log.error("AWWWW Man", e);
         }
-
-        while(!server.isClosed()){//TODO idk if right server.isConnected glaub funktioniert ned
-            try{
-                write.println(read.readLine());
-                write.flush();
-            }catch (IOException e){
-                log.error("Client Server Error", e);
-                break;
-            }
-        }
-
-        try{
-            server.close();
-            read.close();
-            write.close();
-        }catch (IOException e){
-            log.error("Closing Error", e);
-        }
     }
+
+
 }

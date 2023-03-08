@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.ServerSocket;
 
 @Slf4j
-public class Servermain {
+public class Server {
     private static final int PORT = 8080;
     private static final int MAX_CLIENTS = 10;
 
@@ -18,13 +18,14 @@ public class Servermain {
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
-            log.error("Can't create Server Socket");
-            e.printStackTrace();
+            log.error("Can't create Server Socket", e);
         }
 
         while (true) {
             try {
-                distributor.add(serverSocket.accept());
+                if (serverSocket != null) {
+                    distributor.add(serverSocket.accept());
+                }
             } catch (IOException e) {
                 log.error("Error on handling Client", e);
             }

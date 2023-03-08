@@ -3,7 +3,7 @@ package org.client;
 import java.io.*;
 import java.net.Socket;
 
-public class Main {
+public class Client {
     private static final String ip = "127.0.0.1";
     private static final int port = 8080;
 
