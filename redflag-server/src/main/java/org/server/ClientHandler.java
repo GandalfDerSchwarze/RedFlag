@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
-public class ClientHandler {
+public class ClientHandler extends Thread {
     private int port;
     private ServerSocket serverSocket;
     private List<PrintWriter> writer;
@@ -28,16 +28,17 @@ public class ClientHandler {
         return this.port;
     }
 
-    //TODO: not so good accept blocks, find solution JAn ;D Probably change to HTTP Requests should be not tooo hard i hope e
     public void acceptNewSocket() {
         try {
             Socket client = this.serverSocket.accept();
+            log.info(client + " - connected to Handler {}", this);
             this.writer.add(new PrintWriter(new OutputStreamWriter(client.getOutputStream())));
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
             new Thread(() -> {
                 while (!client.isClosed()) {
                     try {
                         String readLine = bufferedReader.readLine();
+                        log.info("Handler read in a message and broadcast it to {} clients", this.writer.size());
                         this.writer.forEach(writer -> {
                             writer.println(readLine);
                             writer.flush();
@@ -52,5 +53,9 @@ public class ClientHandler {
         }
     }
 
+    @Override
+    public void run() {
+        log.info("A new Handler on port {} is starting up", this.port);
+    }
 
 }

@@ -8,31 +8,20 @@ import java.net.ServerSocket;
 @Slf4j
 public class Server {
     private static final int PORT = 8080;
-    private static final int MAX_CLIENTS = 10;
 
     public static void main(String[] args) {
         startup();
-        ServerSocket serverSocket = null;
-        Distributor distributor = new Distributor(MAX_CLIENTS);
+        Distributor distributor = new Distributor();
 
-        try {
-            serverSocket = new ServerSocket(PORT);
-        } catch (IOException e) {
-            log.error("Can't create Server Socket", e);
-        }
-
-        while (true) {
-            try {
-                if (serverSocket != null) {
-                    distributor.add(serverSocket.accept());
-                }
-            } catch (IOException e) {
-                log.error("Error on handling Client", e);
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            //TODO: think about an espace, that the server will stop
+            while (true) {
+                log.info("Server starts listening for connection attempts");
+                distributor.add(serverSocket.accept());
             }
+        } catch (IOException e) {
+            log.error("ServerSocket Error", e);
         }
-
-        //TODO: Dont forget
-        //serverSocket.close();
     }
 
     private static void startup() {
