@@ -14,6 +14,8 @@ public class ClientHandler {
 
     private ServerSocket serverSocket;
     private List<PrintWriter> writer;
+    private List<String> messages;
+    private final String prevMessagesEnd = "END - all previous Messages sent";
 
     public ClientHandler() {
         try {
@@ -22,6 +24,7 @@ public class ClientHandler {
             log.error("GRRRRRRRRR cant create new ServerSocket", e);
         }
         this.writer = new LinkedList<>();
+        this.messages = new LinkedList<>();
     }
 
     public int getPort() {
@@ -38,15 +41,25 @@ public class ClientHandler {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
             this.writer.add(printWriter);
 
+            //TODO maybe in different class for better readability
             new Thread(() -> {
+                messages.forEach(s -> {
+                    printWriter.println(s);
+                    printWriter.flush();
+                });
+                printWriter.println(prevMessagesEnd);
+                printWriter.flush();
+                log.info("Handler sent previous Chat Messages to Client");
+
                 while (true) {
                     try {
                         String readLine = bufferedReader.readLine();
-                        log.info("Handler read in a message and broadcast it to {} clients", this.writer.size());
                         this.writer.forEach(writer -> {
                             writer.println(readLine);
                             writer.flush();
                         });
+                        messages.add(readLine);
+                        log.info("Handler read in a message and broadcast it to {} clients", this.writer.size());
                     } catch (IOException e) {
                         log.error("Connection lost", e);
                         break;

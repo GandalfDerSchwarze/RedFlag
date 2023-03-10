@@ -14,6 +14,7 @@ public class Reader extends Thread {
     private String reading;
     private boolean closed;
     private final String user;
+    private final String prevMessagesEnd = "END - all previous Messages sent";
 
     public Reader(Socket socket, String user) {
         this.socket = socket;
@@ -25,6 +26,17 @@ public class Reader extends Thread {
         } catch (IOException e) {
             log.error("Reader Error - cant create BufferedReader", e);
         }
+
+        //get previous Messages
+        do{
+            try{
+                reading = read.readLine();
+                System.out.println(reading.substring(reading.indexOf(":") + 1));
+            }catch (IOException e){
+                log.error("Error while reading previous Messages", e);
+            }
+        }while (!reading.equals(prevMessagesEnd));
+        System.out.println("\n");
     }
 
     public void close() {
