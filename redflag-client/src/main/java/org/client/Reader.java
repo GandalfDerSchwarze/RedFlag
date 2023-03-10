@@ -1,16 +1,19 @@
 package org.client;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+@Slf4j
 public class Reader extends Thread {
-    private Socket socket;
+    private final Socket socket;
     private BufferedReader read;
     private String reading;
     private boolean closed;
-    private String user;
+    private final String user;
 
     public Reader(Socket socket, String user) {
         this.socket = socket;
@@ -20,8 +23,7 @@ public class Reader extends Thread {
         try {
             read = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         } catch (IOException e) {
-            System.err.println("Reader Error - cant create BufferedReader");
-            e.printStackTrace();
+            log.error("Reader Error - cant create BufferedReader", e);
         }
     }
 
@@ -31,8 +33,7 @@ public class Reader extends Thread {
             socket.close();
             read.close();
         } catch (IOException e) {
-            System.out.println("Reader Error - closing error");
-            e.printStackTrace();
+            log.error("Reader Error - closing error", e);
         }
     }
 
@@ -42,12 +43,11 @@ public class Reader extends Thread {
             try {
                 reading = read.readLine();
             } catch (IOException e) {
-                System.err.println("Reader Error - reading error");
-                e.printStackTrace();
+                log.error("Reader Error - reading error", e);
                 break;
             }
-            if (!reading.contains(user)) {
-                System.out.println(reading);
+            if (!reading.contains(Integer.toString(user.hashCode())) && !reading.contains(user)) {
+                System.out.println(reading.substring(reading.indexOf(":")));
             }
         }
     }

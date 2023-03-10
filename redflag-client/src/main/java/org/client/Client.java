@@ -1,8 +1,11 @@
 package org.client;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.*;
 import java.net.Socket;
 
+@Slf4j
 public class Client {
     private static final String ip = "127.0.0.1";
     private static final int port = 8080;
@@ -42,8 +45,8 @@ public class Client {
 
             reading = read.readLine();
             if (!reading.equals("Success")) {
-                System.err.println("Server Error");
-                throw new RuntimeException();
+                log.error("Server Error");
+                System.exit(-1);
             }
 
             reading = read.readLine();
@@ -58,8 +61,7 @@ public class Client {
             writer = new Writer(socket, user);
             System.out.println("Connected on Port: " + newPort);
         }catch (IOException e) {
-            System.err.println("Client Initialise Error");
-            e.printStackTrace();
+            log.error("Client Initialise Error", e);
         }
     }
 
@@ -79,8 +81,7 @@ public class Client {
             writer.close();
             socket.close();
         }catch (IOException e){
-            System.err.println("Hoppala sollte nicht passieren");
-            e.printStackTrace();
+            log.error("Hoppala sollte nicht passieren", e);
         }
     }
 }

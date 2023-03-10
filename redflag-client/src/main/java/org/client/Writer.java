@@ -1,10 +1,13 @@
 package org.client;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+@Slf4j
 public class Writer{
     private Socket socket;
     private PrintWriter writer;
@@ -17,13 +20,12 @@ public class Writer{
         try{
             this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         }catch (IOException e){
-            System.out.println("Writer Error - Cant create PrintWriter");
-            e.printStackTrace();
+            log.error("Writer Error - Cant create PrintWriter", e);
         }
     }
 
     public void write(String write){
-        writer.println(user + ": " + write);
+        writer.println(user.hashCode() + ":" + user + ": " + write);
         writer.flush();
     }
 
@@ -32,8 +34,7 @@ public class Writer{
             socket.close();
             writer.close();
         }catch (IOException e){
-            System.out.println("Writer Error - Cant close");
-            e.printStackTrace();
+            log.error("Writer Error - Cant close", e);
         }
     }
 }
