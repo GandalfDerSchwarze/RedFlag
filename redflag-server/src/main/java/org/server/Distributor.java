@@ -10,16 +10,14 @@ import java.util.List;
 
 @Slf4j
 public class Distributor {
-    List<ClientHandler> clientHandlers;
+    private List<ClientHandler> clientHandlers;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
-    String input;
-    int port;
-    int pos;
+    private String input;
+    private int port;
 
     public Distributor() {
         this.clientHandlers = new ArrayList<>();
-        this.pos = 0;
     }
 
     public void add(Socket accepted) {
@@ -31,6 +29,9 @@ public class Distributor {
         } catch (IOException e) {
             log.error("Whoopsie something went wrong :(", e);
         }
+
+        //default value -> if no port was found value is -1 -> maybe safety so no wrong port but idk
+        port = -1;
 
         //wait for port request from Client
         try {
@@ -51,9 +52,9 @@ public class Distributor {
 
         if (clientHandler == null) {
             clientHandler = new ClientHandler();
-            clientHandler.start();
+            clientHandler.startUp();
             clientHandlers.add(clientHandler);
-            log.info("Port wasn't found, so the Distributor started a new ClienHandler");
+            log.info("Port wasn't found, so the Distributor started a new ClientHandler");
         } else {
             log.info("Port was found, the Distributor retrieves forwards the port back and tells the client-handler to wait for a new connection");
         }
@@ -75,7 +76,6 @@ public class Distributor {
             accepted.close();
             bufferedReader.close();
             printWriter.close();
-            port = -1;
         } catch (IOException e) {
             log.error("Closing Error in Distributor", e);
         }

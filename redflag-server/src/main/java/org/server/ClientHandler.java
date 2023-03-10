@@ -9,8 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
-public class ClientHandler extends Thread {
-    private int port;
+public class ClientHandler {
     private ServerSocket serverSocket;
     private List<PrintWriter> writer;
 
@@ -21,11 +20,10 @@ public class ClientHandler extends Thread {
             log.error("GRRRRRRRRR cant create new ServerSocket", e);
         }
         this.writer = new LinkedList<>();
-        this.port = this.serverSocket.getLocalPort();
     }
 
     public int getPort() {
-        return this.port;
+        return this.serverSocket.getLocalPort();
     }
 
     public void acceptNewSocket() {
@@ -53,9 +51,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    @Override
-    public void run() {
-        log.info("A new Handler on port {} is starting up", this.port);
+    public void startUp() {
+        log.info("A new Handler on port {} is starting up", this.serverSocket.getLocalPort());
     }
-
 }

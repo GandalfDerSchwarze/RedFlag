@@ -15,6 +15,7 @@ public class Server {
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             //TODO: think about an espace, that the server will stop
+            log.info("Server started on Port: " + PORT);
             while (true) {
                 log.info("Server starts listening for connection attempts");
                 distributor.add(serverSocket.accept());
