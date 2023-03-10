@@ -70,11 +70,9 @@ public class Client {
 
         try{
             do{
-                System.out.println("Chat Message: ");
+                System.out.println("\n\nChat Message: ");
                 writing = Input.readString();
                 writer.write(writing);
-
-                System.out.println("Sent: " + writing);
             }while(!writing.equals("exit"));
 
             reader.close();

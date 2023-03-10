@@ -19,6 +19,9 @@ public class Server {
             while (true) {
                 log.info("Server starts listening for connection attempts");
                 distributor.add(serverSocket.accept());
+
+                log.info("Server cleanUp of Ports which are not used");
+                distributor.cleanUpPorts();
             }
         } catch (IOException e) {
             log.error("ServerSocket Error", e);

@@ -81,4 +81,10 @@ public class Distributor {
 
         clientHandler.acceptNewSocket();
     }
+
+    public void cleanUpPorts(){
+        this.clientHandlers = clientHandlers.stream()
+                .filter(clientHandler -> clientHandler.getConnections() > 0)
+                .toList();
+    }
 }

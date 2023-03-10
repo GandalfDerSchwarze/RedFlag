@@ -46,8 +46,8 @@ public class Reader extends Thread {
                 log.error("Reader Error - reading error", e);
                 break;
             }
-            if (!reading.contains(Integer.toString(user.hashCode())) && !reading.contains(user)) {
-                System.out.println(reading.substring(reading.indexOf(":")));
+            if (!reading.contains(Integer.toString(user.hashCode()))) {
+                System.out.println(reading.substring(reading.indexOf(":") + 1));
             }
         }
     }

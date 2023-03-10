@@ -10,6 +10,8 @@ import java.util.List;
 
 @Slf4j
 public class ClientHandler {
+    private static int connections = 0;
+
     private ServerSocket serverSocket;
     private List<PrintWriter> writer;
 
@@ -30,10 +32,14 @@ public class ClientHandler {
         try {
             Socket client = this.serverSocket.accept();
             log.info(client + " - connected to Handler {}", this);
-            this.writer.add(new PrintWriter(new OutputStreamWriter(client.getOutputStream())));
+            connections++;
+
+            PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            this.writer.add(printWriter);
+
             new Thread(() -> {
-                while (!client.isClosed()) {
+                while (true) {
                     try {
                         String readLine = bufferedReader.readLine();
                         log.info("Handler read in a message and broadcast it to {} clients", this.writer.size());
@@ -42,13 +48,28 @@ public class ClientHandler {
                             writer.flush();
                         });
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        log.error("Connection lost", e);
+                        break;
                     }
+                }
+
+                try{
+                    client.close();
+                    bufferedReader.close();
+                    this.writer.remove(printWriter);
+                    printWriter.close();
+                    connections--;
+                }catch (IOException e){
+                    log.error("Closing error", e);
                 }
             }).start();
         } catch (IOException e) {
             log.error("AWWWW Man", e);
         }
+    }
+
+    public int getConnections(){
+        return connections;
     }
 
     public void startUp() {
