@@ -12,7 +12,7 @@ public class Distributor {
     private List<ClientHandler> clientHandlers;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;
-    private String input;
+    private String id;
     private int port;
 
     public Distributor() {
@@ -34,36 +34,39 @@ public class Distributor {
 
         //wait for port request from Client
         try {
-            log.info("Distributor waits for a Port from the Client");
-            input = bufferedReader.readLine();
-            port = Integer.parseInt(input);
-            log.info("Distributor got {} as port", port);
+            log.info("Distributor waits for a Port/ID from the Client");
+            id = bufferedReader.readLine();
+            port = Integer.parseInt(id);
+            log.info("Distributor got {} as ID and {} as port", id, port);
         } catch (IOException e) {
             log.error("Wrong Input", e);
         }
 
-        log.info("Distributor checks if a ClientHandler with this Port exists");
+        log.info("Distributor checks if a ClientHandler with this Port/ID exists");
 
         ClientHandler clientHandler = clientHandlers.stream()
-                .filter(ch -> ch != null && ch.getPort() == port)
+                .filter(ch -> ch != null && (ch.getId().equals(id) || ch.getPort() == port))
                 .findFirst()
                 .orElse(null);
 
         if (clientHandler == null) {
-            clientHandler = new ClientHandler();
+            clientHandler = new ClientHandler(id);
             clientHandler.startUp();
             clientHandlers.add(clientHandler);
-            log.info("Port wasn't found, so the Distributor started a new ClientHandler");
+            log.info("Port/ID wasn't found, so the Distributor started a new ClientHandler");
         } else {
-            log.info("Port was found, the Distributor retrieves forwards the port back and tells the client-handler to wait for a new connection");
+            log.info("Port/ID was found, the Distributor retrieves forwards the port back and tells the client-handler to wait for a new connection");
         }
 
         port = clientHandler.getPort();
+        id = clientHandler.getId();
 
         if (port >= 0 && port <= 65535) {
             printWriter.println("Success");
             printWriter.flush();
             printWriter.println(port);
+            printWriter.flush();
+            printWriter.println(id);
             printWriter.flush();
         } else {
             printWriter.println("Error");

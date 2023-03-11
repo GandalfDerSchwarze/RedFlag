@@ -38,7 +38,7 @@ public class Client {
             read = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             write = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-            System.out.println("Chat Port:");//If port does not exist new ServerSocket is created (capped)
+            System.out.println("Chat Port/ID:");//If port/id does not exist new ServerSocket is created
             writing = Input.readString();
             write.println(writing);
             write.flush();
@@ -49,8 +49,9 @@ public class Client {
                 System.exit(-1);
             }
 
-            reading = read.readLine();
+            reading = read.readLine();  //port
             newPort = Integer.parseInt(reading);
+            reading = read.readLine();  //id
 
             socket.close();
             read.close();
@@ -59,7 +60,7 @@ public class Client {
             socket = new Socket(ip, newPort);
             reader = new Reader(socket, user);
             writer = new Writer(socket, user);
-            System.out.println("Connected on Port: " + newPort);
+            System.out.println("Connected on " + reading + "/" + newPort);
         }catch (IOException e) {
             log.error("Client Initialise Error", e);
         }

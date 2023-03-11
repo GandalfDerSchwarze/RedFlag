@@ -20,6 +20,7 @@ public class Server {
                 log.info("Server starts listening for connection attempts");
                 distributor.add(serverSocket.accept());
 
+                //TODO if cleanUpPorts not there i guess the chat "Verlauf"(in Englisch) will be saved as long as server is running
                 log.info("Server cleanUp of Ports which are not used");
                 distributor.cleanUpPorts();
             }

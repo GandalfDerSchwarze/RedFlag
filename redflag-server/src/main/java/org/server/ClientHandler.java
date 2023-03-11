@@ -12,17 +12,19 @@ import java.util.List;
 public class ClientHandler {
     private static int connections = 0;
 
+    private String id;
     private ServerSocket serverSocket;
     private List<PrintWriter> writer;
     private List<String> messages;
     private final String prevMessagesEnd = "END - all previous Messages sent";
 
-    public ClientHandler() {
+    public ClientHandler(String id) {
         try {
             this.serverSocket = new ServerSocket(0);
         } catch (IOException e) {
             log.error("GRRRRRRRRR cant create new ServerSocket", e);
         }
+        this.id = id;
         this.writer = new LinkedList<>();
         this.messages = new LinkedList<>();
     }
@@ -30,6 +32,8 @@ public class ClientHandler {
     public int getPort() {
         return this.serverSocket.getLocalPort();
     }
+
+    public String getId(){return this.id;}
 
     public void acceptNewSocket() {
         try {
@@ -41,7 +45,7 @@ public class ClientHandler {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
             this.writer.add(printWriter);
 
-            //TODO maybe in different class for better readability
+            //TODO Thread maybe in different class for better readability
             new Thread(() -> {
                 messages.forEach(s -> {
                     printWriter.println(s);
