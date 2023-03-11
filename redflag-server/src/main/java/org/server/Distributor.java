@@ -36,11 +36,16 @@ public class Distributor {
         try {
             log.info("Distributor waits for a Port/ID from the Client");
             id = bufferedReader.readLine();
-            port = Integer.parseInt(id);
-            log.info("Distributor got {} as ID and {} as port", id, port);
         } catch (IOException e) {
             log.error("Wrong Input", e);
         }
+
+        try{
+            port = Integer.parseInt(id);
+        }catch (NumberFormatException e){
+            log.info("Distributor can not convert input to number");
+        }
+        log.info("Distributor got {} as ID and {} as port", id, port);
 
         log.info("Distributor checks if a ClientHandler with this Port/ID exists");
 

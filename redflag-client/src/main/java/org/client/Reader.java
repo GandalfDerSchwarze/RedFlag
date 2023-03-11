@@ -59,7 +59,13 @@ public class Reader extends Thread {
                 break;
             }
             if (!reading.contains(Integer.toString(user.hashCode()))) {
-                System.out.println(reading.substring(reading.indexOf(":") + 1));
+                reading = reading.substring(reading.indexOf(":") + 1);
+
+                if(reading.endsWith(": null")){
+                    System.out.println(reading.substring(0, reading.indexOf(":")) + " has left the chat");
+                }else{
+                    System.out.println(reading);
+                }
             }
         }
     }
