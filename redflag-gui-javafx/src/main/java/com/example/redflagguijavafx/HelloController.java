@@ -1,14 +1,20 @@
 package com.example.redflagguijavafx;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 
 public class HelloController {
-    @FXML
-    private Label welcomeText;
+    private boolean isRunning = false;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private TextArea print;
+
+    @FXML
+    protected void startServer(){
+        if(!isRunning){
+            isRunning = true;
+            Copy1203Server server = new Copy1203Server(print);
+            server.start();
+        }
     }
 }
