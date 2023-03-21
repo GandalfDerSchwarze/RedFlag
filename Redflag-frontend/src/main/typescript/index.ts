@@ -1,6 +1,6 @@
 function f() {
     const el = document.createElement('div');
-    el.innerHTML = "ASDF";
+    el.innerHTML = "sdfg";
     return el;
 }
 
