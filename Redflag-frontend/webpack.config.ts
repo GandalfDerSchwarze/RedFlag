@@ -1,4 +1,3 @@
-const {merge} = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path');
@@ -7,11 +6,6 @@ const path = require('path');
 const commonConfig = {
     entry: {
         index: './src/main/typescript/index.ts'
-    },
-    output: {
-        filename: 'main.ts',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: 'static/'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -44,6 +38,11 @@ const commonConfig = {
             '/api': 'http://localhost:8080'
         }
     },
+    output: {
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'target/classes/static/'),
+        publicPath: '/static/'
+    }
 };
 
 const productionConfig = {
