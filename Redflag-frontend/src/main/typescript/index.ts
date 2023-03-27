@@ -1,7 +1,10 @@
-function f() {
-    const el = document.createElement('div');
-    el.innerHTML = "sdfg";
-    return el;
-}
+import {Router} from "@vaadin/router";
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import {setBasePath} from "@shoelace-style/shoelace";
+import {routes} from "./routing";
 
-document.body.appendChild(f())
+export const router = new Router(document.querySelector("#outlet"));
+
+router.setRoutes(routes).then(r => console.log(r));
+
+setBasePath('static/dist/shoelace');
