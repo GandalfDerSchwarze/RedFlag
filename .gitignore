@@ -22,3 +22,11 @@
 *.lock
 *.bin
 *.probe
+*.jar
+*.properties
+.gitignore
+*.iml
+*.xml
+*.bat
+package-lock.json
+gradlew

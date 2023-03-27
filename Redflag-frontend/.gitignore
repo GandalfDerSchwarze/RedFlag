@@ -1,3 +1,6 @@
 #allgemein
 /node_modules
 /dist
+/.gradle
+/node
+/build
