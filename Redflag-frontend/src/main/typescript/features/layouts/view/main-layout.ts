@@ -10,16 +10,26 @@ export class MainLayout extends LitElement{
         // language=css
         return css`
             :host {
+                height: 100vh;
+                width: 100vw;
                 display: grid;
-                grid-template-rows: 0 0 1fr;
             }
+            
+            .mainpage {
+                height: 100vh;
+                width: 100vw;
+                background: darkslategray;
+            }
+            
         `;
     }
 
     render() {
         // language=html
         return html`
-            <sl-button>ADD</sl-button>
+            <div class="mainpage">
+                <slot></slot>
+            </div>
           `;
     }
 }

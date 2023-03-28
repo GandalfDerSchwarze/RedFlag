@@ -4,7 +4,7 @@ export const routes: Route[] = [
     {
         path: "/",
         action: async () => {
-            await import('./features/app/view/main-layout');
+            await import('./features/layouts/view/main-layout');
         },
         component: "main-layout",
         children: [
@@ -17,9 +17,9 @@ export const routes: Route[] = [
             {
                 path: "kekw",
                 action: async () => {
-                    await import('./features/app/view/main-layout')
+                    await import('./component/test-button')
                 },
-                component: 'main-layout'
+                component: 'test-button'
             }
         ]
     }
