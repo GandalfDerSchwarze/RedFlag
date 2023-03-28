@@ -18,5 +18,4 @@ frontend {
     checkScript.set("run check")
 }
 
-
 apply(plugin = "org.siouan.frontend-jdk11")
