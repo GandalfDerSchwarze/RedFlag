@@ -10,7 +10,7 @@
     "build": "echo Starting up Frontend in devMode Port:9000",
     "check": "echo Checking frontend && npm run lint",
     "clean": "echo Cleaning frontend (not implemented)",
-    "lint": "echo Linting frontend (not implemented)",
+    "lint": "echo Linting frontend (not implemented)"
   },
   "keywords": [],
   "author": {
@@ -43,7 +43,9 @@
     "@lit-labs/virtualizer": "^1.0.1",
     "@shoelace-style/animations": "^1.1.0",
     "@shoelace-style/shoelace": "^2.3.0",
+    "@vaadin/router": "^1.7.5",
+    "@reduxjs/toolkit": "^1.8.0",
     "lit": "^2.6.1",
-    "@vaadin/router": "^1.7.5"
+    "pwa-helpers": "^0.9.1"
   }
 }

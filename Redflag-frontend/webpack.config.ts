@@ -9,7 +9,9 @@ const commonConfig = {
         index: './src/main/typescript/index.ts'
     },
     plugins: [
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename:'[name].[contenthash].css'
+        }),
         new HtmlWebpackPlugin({
             title: "Demo",
             template: 'src/main/typescript/index.html',
