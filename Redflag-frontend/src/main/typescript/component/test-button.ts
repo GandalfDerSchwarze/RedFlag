@@ -17,7 +17,7 @@ export class TestButton extends LitElement {
     render() {
         // language=html
         return html`
-            <sl-button>TEST</sl-button>
+            <sl-button @click="${() => console.log("heyhoIclicked")}">TEST</sl-button>
         `;
     }
 }

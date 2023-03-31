@@ -7,6 +7,6 @@ import {routes} from "./routing";
 
 export const router = new Router(document.querySelector("#outlet"));
 
-router.setRoutes(routes).then(r => console.log(r));
+router.setRoutes(routes).then(r => {});
 
 setBasePath('static/dist/shoelace');

@@ -73,7 +73,7 @@ const devConfig = {
     devServer: {
         static: './static',
         compress: true,
-        port: 9001,
+        port: 9000,
         historyApiFallback: {
             index: "/static/index.html",
             disableDotRule: true
