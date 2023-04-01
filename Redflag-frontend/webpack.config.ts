@@ -10,7 +10,7 @@ const commonConfig = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename:'[name].[contenthash].css'
+            filename: '[name].[contenthash].css'
         }),
         new HtmlWebpackPlugin({
             title: "Demo",
@@ -55,11 +55,15 @@ const commonConfig = {
                     caseSensitive: true,
                     collapseWhitespace: true
                 }
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                type: "asset/resource"
             }
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.css'],
+        extensions: ['.tsx', '.ts', '.js', '.css', 'ttf'],
     }
 };
 
@@ -85,7 +89,8 @@ const devConfig = {
     output: {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'target/classes/static/'),
-        publicPath: '/static/'
+        publicPath: '/static/',
+        assetModuleFilename:"assets/fonts/[name][ext]"
     }
 };
 

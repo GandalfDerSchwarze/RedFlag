@@ -1,7 +1,7 @@
 import {css, html, LitElement} from "lit";
 import {customElement} from "lit/decorators.js";
-import '@shoelace-style/shoelace/dist/components/dialog/dialog';
-import '@shoelace-style/shoelace/dist/components/button/button';
+
+import './main-header'
 
 @customElement("main-layout")
 export class MainLayout extends LitElement{
@@ -28,7 +28,9 @@ export class MainLayout extends LitElement{
         // language=html
         return html`
             <div class="mainpage">
-                <slot></slot>
+                <main-header></main-header>
+                <slot class="container"></slot>
+                <main-footer></main-footer>
             </div>
           `;
     }
