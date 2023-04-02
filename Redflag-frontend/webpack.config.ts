@@ -63,7 +63,7 @@ const commonConfig = {
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.css', 'ttf'],
+        extensions: ['.tsx', '.ts', '.js', '.css', '.ttf'],
     }
 };
 

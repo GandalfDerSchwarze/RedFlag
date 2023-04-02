@@ -18,14 +18,14 @@ export const routes: Route[] = [
         children: [
             {
                 path: "",
-                redirect: "main/button"
+                redirect: "main/card-carousel"
             },
             {
-                path: "button",
+                path: "card-carousel",
                 action: async () => {
-                    await import('./component/test-button')
+                    await import('./component/cardcarousel/card-carousel')
                 },
-                component: 'test-button'
+                component: 'card-carousel'
             },
         ]
     },
