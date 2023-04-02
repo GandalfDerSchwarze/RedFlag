@@ -23,7 +23,6 @@ export class MainLayout extends LitElement{
                 display: grid;
                 grid-template-rows: 62px 1fr 62px;
             }
-            
         `;
     }
 
