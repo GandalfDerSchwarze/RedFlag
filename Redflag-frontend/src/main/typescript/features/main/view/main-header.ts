@@ -8,24 +8,23 @@ export class MainHeader extends LitElement {
         // language=css
         return css`
             :host {
-                height: 100vh;
-                width: 100vw;
-                display: grid;
+                width: 100%;
+                height: 100%;
             }
 
-            div {
-                width: 100vh;
+            .header {
+                width: 100vw;
                 font-family: Manrope, serif;
                 font-size: 45px;
+                text-align: center;
             }
-
         `;
     }
 
     render() {
         // language=html
         return html`
-            <div>
+            <div class="header">
                 RedFlag
             </div>
         `;

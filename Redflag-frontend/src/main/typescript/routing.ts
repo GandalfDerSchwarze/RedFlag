@@ -1,13 +1,13 @@
-import {Route, Router} from '@vaadin/router';
+import {Route} from '@vaadin/router';
 
 export const routes: Route[] = [
     {
         path: "/",
-        action: async (context, commands) => {
-            console.log("am i here?");
-            Router.go("/main");
-            return commands.redirect("/main");
-        }
+        redirect: "/main"
+    },
+    {
+        path: "",
+        redirect: "/main"
     },
     {
         path: "/main",
@@ -18,9 +18,7 @@ export const routes: Route[] = [
         children: [
             {
                 path: "",
-                action: async (context, commands) => {
-                    return commands.redirect("./main/button");
-                },
+                redirect: "main/button"
             },
             {
                 path: "button",

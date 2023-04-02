@@ -19,6 +19,8 @@ export class MainLayout extends LitElement{
                 height: 100vh;
                 width: 100vw;
                 background: darkslategray;
+                display: grid;
+                grid-template-rows: 62px 1fr 62px;
             }
             
         `;
