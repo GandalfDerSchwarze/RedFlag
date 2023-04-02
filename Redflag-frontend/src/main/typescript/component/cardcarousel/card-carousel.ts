@@ -10,11 +10,11 @@ export class CardCarousel extends LitElement {
     @property()
     private applications: ApplicationDto[] = [
         {
-            application: "RedFlag",
+            application: "Chat",
             imageAlt: "",
             imageSrc: "",
-            description: "Lorem Ipsum",
-            link: "redflag"
+            description: "Simple Chat Tool",
+            link: "chat"
         }
     ]
 

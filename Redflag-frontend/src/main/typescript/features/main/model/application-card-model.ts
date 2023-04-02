@@ -1,5 +1,5 @@
 type applicationName =
-    "RedFlag"
+    "Chat"
 
 export interface ApplicationDto {
     application: applicationName,

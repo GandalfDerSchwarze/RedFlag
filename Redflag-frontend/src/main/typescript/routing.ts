@@ -1,4 +1,4 @@
-import {Route} from '@vaadin/router';
+import {Route} from '@vaadin/router'
 
 export const routes: Route[] = [
     {
@@ -15,19 +15,6 @@ export const routes: Route[] = [
             await import('./features/main/view/main-layout')
         },
         component: 'main-layout',
-        children: [
-            {
-                path: "",
-                redirect: "main/card-carousel"
-            },
-            {
-                path: "card-carousel",
-                action: async () => {
-                    await import('./component/cardcarousel/card-carousel')
-                },
-                component: 'card-carousel'
-            },
-        ]
     },
     {
         path: "/chat",
@@ -38,9 +25,7 @@ export const routes: Route[] = [
         children: [
             {
                 path: "",
-                action: async (context, commands) => {
-                    return commands.redirect("button");
-                },
+                redirect: "chat/button"
             },
             {
                 path: "button",

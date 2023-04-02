@@ -2,6 +2,7 @@ import {css, html, LitElement} from "lit";
 import {customElement} from "lit/decorators.js";
 
 import './main-header'
+import '../../../component/cardcarousel/card-carousel'
 
 @customElement("main-layout")
 export class MainLayout extends LitElement{
@@ -31,7 +32,7 @@ export class MainLayout extends LitElement{
         return html`
             <div class="mainpage">
                 <main-header></main-header>
-                <slot class="container"></slot>
+                <card-carousel></card-carousel>
                 <main-footer></main-footer>
             </div>
           `;
