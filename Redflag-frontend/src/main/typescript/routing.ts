@@ -6,10 +6,6 @@ export const routes: Route[] = [
         redirect: "/main"
     },
     {
-        path: "",
-        redirect: "/main"
-    },
-    {
         path: "/main",
         action: async () => {
             await import('./features/main/view/main-layout')
@@ -35,5 +31,13 @@ export const routes: Route[] = [
                 component: 'test-button'
             },
         ]
+    },
+    {
+        path: '(.*)',
+        action: async () => {
+            console.log("hey");
+            await import('./features/error/view/404-page-not-found')
+        },
+        component: '404-page-not-found',
     }
 ];
