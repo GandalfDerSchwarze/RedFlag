@@ -38,6 +38,6 @@ export const routes: Route[] = [
             console.log("hey");
             await import('./features/error/view/404-page-not-found')
         },
-        component: '404-page-not-found',
+        component: 'page-not-found',
     }
 ];

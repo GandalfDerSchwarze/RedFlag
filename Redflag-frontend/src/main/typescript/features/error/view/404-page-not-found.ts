@@ -1,7 +1,7 @@
 import {css, html, LitElement} from "lit";
 import {customElement} from "lit/decorators.js";
 
-@customElement("404-page-not-found")
+@customElement("page-not-found")
 export class PageNotFound extends LitElement {
 
     static get styles() {
