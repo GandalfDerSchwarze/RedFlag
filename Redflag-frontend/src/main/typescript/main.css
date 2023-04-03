@@ -10,5 +10,5 @@ body {
 
 @font-face {
     font-family: Manrope;
-    src: url("fonts/Manrope/static/Manrope-Medium.ttf") format("truetype");
+    src: url("assets/fonts/Manrope/static/Manrope-Medium.ttf") format("truetype");
 }

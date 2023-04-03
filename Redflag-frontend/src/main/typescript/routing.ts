@@ -8,9 +8,9 @@ export const routes: Route[] = [
     {
         path: "/main",
         action: async () => {
-            await import('./features/main/view/main-layout')
+            await import('./features/main/view/main-layout-new')
         },
-        component: 'main-layout',
+        component: 'main-layout-new',
     },
     {
         path: "/chat",
