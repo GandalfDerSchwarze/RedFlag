@@ -36,10 +36,10 @@ export class MainLayoutNew extends LitElement{
                 <div class="left">
                     Red Flag
                 </div>
-                
-                <div class="right">
-                    Items
-                </div>
+
+                <div class="right" style="font-family: Manrope, serif;">
+                Items
+            </div>
             </div>
         `;
     }

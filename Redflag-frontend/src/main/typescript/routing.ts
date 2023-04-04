@@ -15,22 +15,9 @@ export const routes: Route[] = [
     {
         path: "/chat",
         action: async () => {
-            await import('./features/main/view/main-layout')
+            await import('./features/chat/view/chat-main-view')
         },
-        component: 'main-layout',
-        children: [
-            {
-                path: "",
-                redirect: "chat/button"
-            },
-            {
-                path: "button",
-                action: async () => {
-                    await import('./component/test-button')
-                },
-                component: 'test-button'
-            },
-        ]
+        component: 'chat-main-view'
     },
     {
         path: '(.*)',

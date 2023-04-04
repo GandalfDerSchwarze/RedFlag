@@ -45,8 +45,8 @@ const commonConfig = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
-                type: 'asset/resource'
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.template\.ts$/,
@@ -63,7 +63,7 @@ const commonConfig = {
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.css', '.ttf'],
+        extensions: ['.tsx', '.ts', '.js', '.css', '.ttf', '.jpg'],
     }
 };
 
@@ -90,7 +90,7 @@ const devConfig = {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'target/classes/static/'),
         publicPath: '/static/',
-        assetModuleFilename:"assets/fonts/[name][ext]"
+        assetModuleFilename: "assets/[name][ext]"
     }
 };
 
