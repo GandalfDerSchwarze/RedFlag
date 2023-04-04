@@ -12,7 +12,7 @@ export class MainLayoutNew extends LitElement{
                 grid-template-columns: 1fr 1fr;
 
                 height: 100vh;
-                
+
                 background-image: url('https://images.pexels.com/photos/92664/pexels-photo-92664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
                 background-position: center;
                 background-repeat: no-repeat;
@@ -20,9 +20,8 @@ export class MainLayoutNew extends LitElement{
             }
 
             .left{
-                color: transparent;
-                z-index: 9;
-                background: black;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
             }
             
             .right{
