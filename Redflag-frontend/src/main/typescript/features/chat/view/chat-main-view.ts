@@ -1,11 +1,14 @@
-import {css, html, LitElement} from "lit";
+import {css, html} from "lit";
 import {customElement} from "lit/decorators.js";
 
 import "./chat-text-area";
 import "./chat-header"
+import {ConnectedLitElement} from "../../../ConnectedLitElement";
+import {RootState} from "../../../store";
+import {generateTempMessages, selectMessages} from "../slice/chat-slice";
 
 @customElement("chat-main-view")
-export class ChatMainView extends LitElement {
+export class ChatMainView extends ConnectedLitElement {
 
     static get styles() {
         // language=css
@@ -15,9 +18,9 @@ export class ChatMainView extends LitElement {
                 width: 100vw;
                 display: grid;
             }
-            
+
             .chat-main-layout {
-                
+
             }
 
             .chat-header {
@@ -34,6 +37,14 @@ export class ChatMainView extends LitElement {
                 z-index: 1;
             }
         `;
+    }
+
+    connectedCallback() {
+        generateTempMessages();
+    }
+
+    stateChanged(state: RootState) {
+        selectMessages(state);
     }
 
     render() {
