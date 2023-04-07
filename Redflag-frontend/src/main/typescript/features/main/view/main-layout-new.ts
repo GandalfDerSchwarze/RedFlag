@@ -1,5 +1,8 @@
 import {css, html, LitElement} from "lit";
-import {customElement} from "lit/decorators.js";
+import {customElement, state} from "lit/decorators.js";
+// @ts-ignore
+import Image3 from '../../../assets/img/background-main-layout-new.jpg';
+
 
 @customElement("main-layout-new")
 export class MainLayoutNew extends LitElement {
@@ -31,6 +34,23 @@ export class MainLayoutNew extends LitElement {
         `;
     }
 
+    private imageElement: HTMLImageElement = new Image();
+
+    @state()
+    private urlLeftSide: string = "";
+
+    async connectedCallback() {
+        super.connectedCallback();
+        this.imageElement = new Image()
+        this.imageElement.src = Image3
+
+        //this.urlRightSide = this.editImage(Image3, 0, 0, 1000, 1000)
+
+        this.urlLeftSide = await this.editImage(Image3, 100, 500, 500, 500);
+
+    }
+
+
     render() {
         //language=html
         return html`
@@ -43,6 +63,62 @@ export class MainLayoutNew extends LitElement {
                     Items
                 </div>
             </div>
+
+            <div style="background-image: url('${this.urlLeftSide}'); height: 500px; width: 500px">
+
+            </div>
         `;
     }
+
+
+    private editImage(imageSrc: string, sx: number, sy: number, sw: number, sh: number) {
+
+        const canvas = document.createElement("canvas")!;
+        const ctx = canvas.getContext("2d")!;
+
+        const image = new Image();
+
+
+        return new Promise<string>((resolve) => {
+            const onload = () => {
+                let width: number = 0;
+                let height: number = 0;
+
+                if (sw && sh) {
+                    width = sw;
+                    height = sh;
+                    // widthのみ指定の場合, heightはwidthの拡縮に合わせる
+                } else if (sw) {
+                    width = sw;
+                    height = image.height * (sw / image.width);
+                    // heightのみ指定の場合, widthはheightの拡縮に合わせる
+                } else if (sh) {
+                    width = image.width * (sh / image.height);
+                    height = sh;
+                }
+
+                width = Math.floor(width);
+                height = Math.floor(height);
+
+                console.log("[resizeImage]: resize - width, height", width, height);
+
+                canvas.width = width;
+                canvas.height = height;
+                //ctx.drawImage(image, 0, 0, width, height);
+                ctx.drawImage(image, sx, sy, width, height, 0, 0, width, height);
+                //this.test2.src = canvas.toDataURL();
+                resolve(canvas.toDataURL());
+            };
+
+            const onerror = () => {
+                return;
+            };
+
+
+            image.onload = onload;
+            image.onerror = onerror;
+            image.src = imageSrc;
+        })
+    }
+
 }

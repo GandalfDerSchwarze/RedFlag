@@ -1,11 +1,13 @@
 import {css, html} from "lit";
-import {customElement} from "lit/decorators.js";
+import {customElement, state} from "lit/decorators.js";
 
 import "./chat-text-area";
 import "./chat-header"
+import {RootState, store} from "../../../store";
+import {generateContacts, generateTempMessages, selectContacts, selectMessages} from "../slice/chat-slice";
 import {ConnectedLitElement} from "../../../ConnectedLitElement";
-import {RootState} from "../../../store";
-import {generateTempMessages, selectMessages} from "../slice/chat-slice";
+import {Contact} from "../model/contact";
+
 
 @customElement("chat-main-view")
 export class ChatMainView extends ConnectedLitElement {
@@ -20,7 +22,6 @@ export class ChatMainView extends ConnectedLitElement {
             }
 
             .chat-main-layout {
-
             }
 
             .chat-header {
@@ -39,12 +40,24 @@ export class ChatMainView extends ConnectedLitElement {
         `;
     }
 
+    @state()
+    private messages?: Message[];
+
+    @state()
+    private contacts?: Contact[];
+
+
     connectedCallback() {
-        generateTempMessages();
+        super.connectedCallback();
+        store.dispatch(generateTempMessages());
+        store.dispatch(generateContacts());
     }
 
     stateChanged(state: RootState) {
-        selectMessages(state);
+        this.messages = selectMessages(state);
+        this.contacts = selectContacts(state);
+        console.log(this.messages);
+        console.log(this.contacts);
     }
 
     render() {
