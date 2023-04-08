@@ -84,6 +84,10 @@ const devConfig = {
         },
         proxy: {
             '/api': 'http://localhost:8080'
+        },
+        client: {
+            //cause a bug in the lit-virtualizer was extremly anoing
+            overlay: false
         }
     },
     output: {
