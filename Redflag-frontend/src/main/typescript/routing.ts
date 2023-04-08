@@ -22,7 +22,6 @@ export const routes: Route[] = [
     {
         path: '(.*)',
         action: async () => {
-            console.log("hey");
             await import('./features/error/view/404-page-not-found')
         },
         component: 'page-not-found',

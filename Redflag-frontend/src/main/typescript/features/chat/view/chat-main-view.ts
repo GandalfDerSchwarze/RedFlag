@@ -56,16 +56,21 @@ export class ChatMainView extends ConnectedLitElement {
     stateChanged(state: RootState) {
         this.messages = selectMessages(state);
         this.contacts = selectContacts(state);
-        console.log(this.messages);
-        console.log(this.contacts);
     }
 
     render() {
         // language=html
         return html`
             <div class="chat-main-layout">
-                <chat-header class="chat-header"></chat-header>
-                <chat-text-area class="chat-text"></chat-text-area>
+                <chat-header
+                        .contacts="${this.contacts}"
+                        class="chat-header">
+                </chat-header>
+                <chat-text-area
+                        .contact="${this.contacts![0]}"
+                        .messages="${this.messages}"
+                        class="chat-text">
+                </chat-text-area>
             </div>
         `;
     }
