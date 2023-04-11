@@ -79,8 +79,27 @@ export class ChatTextArea extends LitElement {
             }
 
             lit-virtualizer {
-                min-height: 150px;
-                height: 150px;
+                display: block;
+                padding-left: 7px;
+                padding-right: 7px;
+                position: relative;
+                contain: strict;
+                overflow: auto;
+                grid-row: 2;
+            }
+
+            .history {
+                display: grid;
+                grid-template-rows: 1fr auto;
+                max-height: 100%;
+            }
+
+            .message-element {
+                width: 98%;
+            }
+
+            .right {
+                text-align: right;
             }
         `;
     }
@@ -94,30 +113,43 @@ export class ChatTextArea extends LitElement {
     @property()
     messages: Message[] = [];
 
+    @state()
+    private historyElement?: HTMLDivElement | null;
+
+    @state()
+    private maxVirtHeight: number = 150;
+
+    //temp vars for further changes
+
+    private accountName = "leon"
+
+    protected firstUpdated() {
+        this.historyElement = this.renderRoot.querySelector('#history');
+        if (this.historyElement) {
+            this.maxVirtHeight = this.historyElement.getBoundingClientRect().height
+            console.log(this.maxVirtHeight)
+        }
+    }
+
     render() {
         // language=html
         return html`
             <div class="container">
                 <div class="text" style="">
-                    <div class="history">
-
+                    <div id="history" class="history">
                         <lit-virtualizer
-                                @error="${(e: any) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    console.log("Error");
-                                }}"
+                                style="max-height: ${this.maxVirtHeight}px; height: ${this.messages.length * 20 > this.maxVirtHeight ? this.maxVirtHeight : this.messages.length * 20 + 2}px"
                                 scroller
                                 .items=${this.messages}
                                 .renderItem=${(m: Message) =>
                                         html`
-                                            <div>
+                                            <div id="messageElement"
+                                                 class="message-element ${this.accountName === m.sender ? "left" : "right"}"
+                                                 style="height: 20px">
                                                 ${m.content}
                                             </div>
                                         `}>
                         </lit-virtualizer>
-
-
                     </div>
                     <div class="sendBar">
                         <sl-input placeholder="Input" size="medium" pill></sl-input>
