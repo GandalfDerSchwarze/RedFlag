@@ -87,11 +87,9 @@ export class MainLayoutNew extends LitElement {
                 if (sw && sh) {
                     width = sw;
                     height = sh;
-                    // widthのみ指定の場合, heightはwidthの拡縮に合わせる
                 } else if (sw) {
                     width = sw;
                     height = image.height * (sw / image.width);
-                    // heightのみ指定の場合, widthはheightの拡縮に合わせる
                 } else if (sh) {
                     width = image.width * (sh / image.height);
                     height = sh;
