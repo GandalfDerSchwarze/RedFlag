@@ -1,7 +1,7 @@
 import {css, html, LitElement} from "lit";
 import {customElement, state} from "lit/decorators.js";
 // @ts-ignore
-import Image3 from '../../../assets/img/background-main-layout-new.jpg';
+import CustomImage from '../../../assets/img/background-main-layout-new.jpg';
 
 
 @customElement("main-layout-new")
@@ -42,11 +42,11 @@ export class MainLayoutNew extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
         this.imageElement = new Image()
-        this.imageElement.src = Image3
+        this.imageElement.src = CustomImage
 
         //this.urlRightSide = this.editImage(Image3, 0, 0, 1000, 1000)
 
-        this.urlLeftSide = await this.editImage(Image3, 100, 500, 500, 500);
+        this.urlLeftSide = await this.editImage(CustomImage, 100, 500, 500, 500);
 
     }
 

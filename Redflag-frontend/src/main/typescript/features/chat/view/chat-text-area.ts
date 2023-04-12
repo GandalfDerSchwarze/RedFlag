@@ -1,8 +1,10 @@
 import {css, html, LitElement} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
 import "./../../../assets/img/background-main-layout-new.jpg";
-import {Contact} from "../model/contact";
 import '@lit-labs/virtualizer'
+import {Contact} from "../model/contact";
+import {flow} from '@lit-labs/virtualizer/layouts/flow.js'
+import {LitVirtualizer} from "@lit-labs/virtualizer";
 
 @customElement("chat-text-area")
 export class ChatTextArea extends LitElement {
@@ -101,6 +103,26 @@ export class ChatTextArea extends LitElement {
             .right {
                 text-align: right;
             }
+
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background-color: dimgray;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: #7b7b7b;
+                border-radius: 20px;
+                border: 3px solid #7b7b7b;
+            }
+
+            :host {
+                scrollbar-color: #7b7b7b dimgray;   
+            }
+
+
         `;
     }
 
@@ -117,18 +139,30 @@ export class ChatTextArea extends LitElement {
     private historyElement?: HTMLDivElement | null;
 
     @state()
+    private virtualizer?: LitVirtualizer | null;
+
+    @state()
     private maxVirtHeight: number = 150;
 
     //temp vars for further changes
-
     private accountName = "leon"
 
     protected firstUpdated() {
         this.historyElement = this.renderRoot.querySelector('#history');
+        this.virtualizer = this.renderRoot.querySelector('#virtualizer');
         if (this.historyElement) {
             this.maxVirtHeight = this.historyElement.getBoundingClientRect().height
             console.log(this.maxVirtHeight)
         }
+    }
+
+    protected updated() {
+        if (this.virtualizer) {
+            if (this.virtualizer.element(this.messages.length - 1)) {
+                this.virtualizer.element(this.messages.length - 1)?.scrollIntoView({});
+            }
+        }
+
     }
 
     render() {
@@ -138,23 +172,41 @@ export class ChatTextArea extends LitElement {
                 <div class="text" style="">
                     <div id="history" class="history">
                         <lit-virtualizer
-                                style="max-height: ${this.maxVirtHeight}px; height: ${this.messages.length * 20 > this.maxVirtHeight ? this.maxVirtHeight : this.messages.length * 20 + 2}px"
+                                id="virtualizer"
+                                style="height: ${this.maxVirtHeight - 20}px"
                                 scroller
+                                .layout=${flow({
+                                    direction: 'vertical'
+                                })}
                                 .items=${this.messages}
-                                .renderItem=${(m: Message) =>
-                                        html`
-                                            <div id="messageElement"
-                                                 class="message-element ${this.accountName === m.sender ? "left" : "right"}"
-                                                 style="height: 20px">
-                                                ${m.content}
+                                .renderItem=${(m: Message, index: number) => {
+                                    if (index === 0) {
+                                        return html`
+                                            <div style="height: ${this.maxVirtHeight - 20}px; width: 98%">
+                                                boilerplate for cool start image in the end
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                boilerplate for cool start image in the end
                                             </div>
-                                        `}>
+                                        `
+                                    }
+                                    return html`
+                                        <div id="messageElement"
+                                             class="message-element ${this.accountName === m.sender ? "left" : "right"}"
+                                             style="height: 20px">
+                                            ${m.content}
+                                        </div>
+                                    `
+                                }}>
                         </lit-virtualizer>
                     </div>
                     <div class="sendBar">
                         <sl-input placeholder="Input" size="medium" pill></sl-input>
                         <div style="margin-top: -4px;">
-                            <sl-icon-button name="send" style="font-size: 33px; "></sl-icon-button>
+                            <sl-icon-button @click="${() => console.log(this.virtualizer?.items)}" name="send"
+                                            style="font-size: 33px; "></sl-icon-button>
                         </div>
                     </div>
                     <div class="contactInfoButton"
