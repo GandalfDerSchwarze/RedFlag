@@ -23,14 +23,16 @@ export class MainLayoutNew extends LitElement {
 
     static get styles() {
         //language=css
-        // @ts-ignore
         return css`
             .grid-container {
                 font-family: Manrope, serif;
-                
+
                 display: grid;
                 grid-template-columns: 1fr 1fr;
+
                 height: 100vh;
+
+                background-color: black;
             }
 
             .left {
@@ -39,6 +41,13 @@ export class MainLayoutNew extends LitElement {
                 background-size: cover;
                 background-clip: text;
                 color: transparent;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                font-size: 1111%;
+                font-weight: bold;
             }
 
             .right {
@@ -46,6 +55,22 @@ export class MainLayoutNew extends LitElement {
                 background-position: center;
                 background-size: cover;
                 color: black;
+            }
+
+            .footer {
+                font-size: 200%;
+
+                position: fixed;
+                left: 1%;
+                bottom: 1%;
+
+                border: none;
+                cursor: pointer;
+                background-color: transparent;
+            }
+
+            .footer:hover {
+                transform: scale(1.2);
             }
         `;
     }
@@ -62,7 +87,17 @@ export class MainLayoutNew extends LitElement {
                     Items
                 </div>
             </div>
+            
+            <button class="footer" @click="${this.about}">
+                🚩
+            </button>
         `;
+    }
+
+    about(){
+        //Info about RedFlag :)
+        console.log("RedFlag is AWSOME");
+        alert("RedFlag is AWSOME")
     }
 
     private editImage(imageSrc: string, startXPercent: number, startYPercent: number, newWidthPercent: number, newHeightPercent: number) {
