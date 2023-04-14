@@ -1,110 +1,93 @@
 import {css, html, LitElement} from "lit";
 import {customElement, state} from "lit/decorators.js";
 // @ts-ignore
-import CustomImage from '../../../assets/img/background-main-layout-new.jpg';
-
+import FullBackgroundImage from '../../../assets/img/background-main-layout-new.jpg';
 
 @customElement("main-layout-new")
 export class MainLayoutNew extends LitElement {
+    @state()
+    leftBackgroundImage = "";
+    rightBackgroundImage = "";
+
+    async connectedCallback(){
+        super.connectedCallback();
+
+        const [left, right] = await Promise.all([
+            this.editImage(FullBackgroundImage, 0, 0, 50, 100),
+            this.editImage(FullBackgroundImage, 50, 0, 50, 100)
+        ]);
+
+        this.leftBackgroundImage = left;
+        this.rightBackgroundImage = right;
+    }
+
     static get styles() {
         //language=css
+        // @ts-ignore
         return css`
             .grid-container {
+                font-family: Manrope, serif;
+                
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-
                 height: 100vh;
-
-                background-image: url('/static/assets/background-main-layout-new.jpg');
-                width: 67%;
-
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
             }
 
             .left {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
                 background-clip: text;
                 color: transparent;
             }
 
             .right {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
                 color: black;
             }
         `;
     }
 
-    private imageElement: HTMLImageElement = new Image();
-
-    @state()
-    private urlLeftSide: string = "";
-
-    async connectedCallback() {
-        super.connectedCallback();
-        this.imageElement = new Image()
-        this.imageElement.src = CustomImage
-
-        //this.urlRightSide = this.editImage(Image3, 0, 0, 1000, 1000)
-
-        this.urlLeftSide = await this.editImage(CustomImage, 100, 500, 500, 500);
-
-    }
-
-
     render() {
         //language=html
         return html`
             <div class="grid-container">
-                <div class="left">
+                <div class="left" style="background-image: url('${this.leftBackgroundImage}')">
                     Red Flag
                 </div>
 
-                <div class="right" style="font-family: Manrope, serif;">
+                <div class="right" style="background-image: url('${this.rightBackgroundImage}')">
                     Items
                 </div>
-            </div>
-
-            <div style="background-image: url('${this.urlLeftSide}'); height: 500px; width: 500px">
-
             </div>
         `;
     }
 
-
-    private editImage(imageSrc: string, sx: number, sy: number, sw: number, sh: number) {
-
+    private editImage(imageSrc: string, startXPercent: number, startYPercent: number, newWidthPercent: number, newHeightPercent: number) {
         const canvas = document.createElement("canvas")!;
         const ctx = canvas.getContext("2d")!;
-
         const image = new Image();
-
 
         return new Promise<string>((resolve) => {
             const onload = () => {
-                let width: number = 0;
-                let height: number = 0;
+                let newWidth: number = image.width * newWidthPercent / 100.0;
+                let newHeight: number = image.height * newHeightPercent / 100.0;
+                let startWidth: number = image.width * startXPercent / 100.0;
+                let startHeight: number = image.height * startYPercent / 100.0;
 
-                if (sw && sh) {
-                    width = sw;
-                    height = sh;
-                } else if (sw) {
-                    width = sw;
-                    height = image.height * (sw / image.width);
-                } else if (sh) {
-                    width = image.width * (sh / image.height);
-                    height = sh;
-                }
+                newWidth = Math.floor(newWidth);
+                newHeight = Math.floor(newHeight);
+                startWidth = Math.floor(startWidth);
+                startHeight = Math.floor(startHeight);
 
-                width = Math.floor(width);
-                height = Math.floor(height);
+                //console.log("[resizeImage]: resize - newWidth, newHeight", newWidth, newHeight);
+                //console.log("[resizeImage]: start - startWidth, startHeight", startWidth, startHeight);
 
-                console.log("[resizeImage]: resize - width, height", width, height);
-
-                canvas.width = width;
-                canvas.height = height;
-                //ctx.drawImage(image, 0, 0, width, height);
-                ctx.drawImage(image, sx, sy, width, height, 0, 0, width, height);
-                //this.test2.src = canvas.toDataURL();
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                ctx.drawImage(image, startWidth, startHeight, newWidth, newHeight, 0, 0, newWidth, newHeight);
                 resolve(canvas.toDataURL());
             };
 
@@ -112,11 +95,9 @@ export class MainLayoutNew extends LitElement {
                 return;
             };
 
-
             image.onload = onload;
             image.onerror = onerror;
             image.src = imageSrc;
         })
     }
-
 }
