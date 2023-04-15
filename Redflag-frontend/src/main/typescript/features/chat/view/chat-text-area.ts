@@ -1,6 +1,6 @@
 import {css, html, LitElement} from "lit";
 import {customElement, property, state} from "lit/decorators.js";
-import "./../../../assets/img/background-main-layout-new.jpg";
+import "../../../assets/img/background-main-layout.jpg";
 import '@lit-labs/virtualizer'
 import {Contact} from "../model/contact";
 import {flow} from '@lit-labs/virtualizer/layouts/flow.js'
